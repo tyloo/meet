@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import { Toaster } from '@/components/ui/sonner'
 import { ClerkProvider } from '@clerk/nextjs'
 import localFont from 'next/font/local'
 import './globals.css'
@@ -31,6 +32,7 @@ export default function RootLayout({
           className={`min-h-screen bg-background ${geistSans.variable} ${geistMono.variable} antialiased`}
         >
           {children}
+          <Toaster richColors />
         </body>
       </html>
     </ClerkProvider>
