@@ -8,7 +8,7 @@ const updatedAt = timestamp('updated_at').notNull().defaultNow().$onUpdate(() =>
 
 export const EventTable = pgTable('event', {
   id: primaryKey,
-  clerkUserId: uuid('clerk_user_id').notNull(),
+  clerkUserId: text('clerk_user_id').notNull(),
   name: text('name').notNull(),
   description: text('description'),
   durationInMinutes: integer('duration_in_minutes').notNull(),

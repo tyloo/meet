@@ -8,6 +8,13 @@
       "when": 1728490233814,
       "tag": "0000_even_silvermane",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1728565191375,
+      "tag": "0001_narrow_whistler",
+      "breakpoints": true
     }
   ]
 }
