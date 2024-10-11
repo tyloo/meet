@@ -1,7 +1,7 @@
-'use client'
+"use client";
 
-import { EventForm } from '@/components/forms/EventForm'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { EventForm } from "@/components/forms/EventForm";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 export default function NewEventPage() {
   return (
@@ -13,5 +13,5 @@ export default function NewEventPage() {
         <EventForm />
       </CardContent>
     </Card>
-  )
+  );
 }

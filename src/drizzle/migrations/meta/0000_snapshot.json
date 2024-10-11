@@ -141,12 +141,8 @@
           "name": "schedule_availability_schedule_id_schedule_id_fk",
           "tableFrom": "schedule_availability",
           "tableTo": "schedule",
-          "columnsFrom": [
-            "schedule_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["schedule_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -199,9 +195,7 @@
         "schedule_clerk_user_id_unique": {
           "name": "schedule_clerk_user_id_unique",
           "nullsNotDistinct": false,
-          "columns": [
-            "clerk_user_id"
-          ]
+          "columns": ["clerk_user_id"]
         }
       }
     }

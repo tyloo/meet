@@ -1,41 +1,53 @@
-import type { z } from 'zod'
-import { eventFormSchema } from '@/schema/events'
-import { createEvent } from '@/server/actions/events'
-import { zodResolver } from '@hookform/resolvers/zod'
-import Link from 'next/link'
-import { useForm } from 'react-hook-form'
-import { toast } from 'sonner'
-import { Button } from '../ui/button'
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '../ui/form'
-import { Input } from '../ui/input'
-import { Switch } from '../ui/switch'
-import { Textarea } from '../ui/textarea'
+import type { z } from "zod";
+import { eventFormSchema } from "@/schema/events";
+import { createEvent } from "@/server/actions/events";
+import { zodResolver } from "@hookform/resolvers/zod";
+import Link from "next/link";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+import { Button } from "../ui/button";
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "../ui/form";
+import { Input } from "../ui/input";
+import { Switch } from "../ui/switch";
+import { Textarea } from "../ui/textarea";
 
 export function EventForm() {
   const form = useForm<z.infer<typeof eventFormSchema>>({
     resolver: zodResolver(eventFormSchema),
     defaultValues: {
-      name: '',
-      description: '',
+      name: "",
+      description: undefined,
       isActive: true,
       durationInMinutes: 30,
     },
-  })
+  });
 
   async function onSubmit(values: z.infer<typeof eventFormSchema>) {
-    const data = await createEvent(values)
+    const data = await createEvent(values);
 
     if (data?.error) {
-      toast.error('There was an error saving the event. Please try again later.')
-    }
-    else {
-      toast.success('Event has been created.')
+      toast.error(
+        "There was an error saving the event. Please try again later.",
+      );
+    } else {
+      toast.success("Event has been created.");
     }
   }
 
   return (
     <Form {...form}>
-      <form className="flex gap-6 flex-col" onSubmit={form.handleSubmit(onSubmit)}>
+      <form
+        className="flex gap-6 flex-col"
+        onSubmit={form.handleSubmit(onSubmit)}
+      >
         <FormField
           control={form.control}
           name="name"
@@ -61,9 +73,7 @@ export function EventForm() {
               <FormControl>
                 <Input type="number" {...field} />
               </FormControl>
-              <FormDescription>
-                In minutes
-              </FormDescription>
+              <FormDescription>In minutes</FormDescription>
               <FormMessage />
             </FormItem>
           )}
@@ -91,7 +101,10 @@ export function EventForm() {
             <FormItem>
               <div className="flex items-center gap-2">
                 <FormControl>
-                  <Switch checked={field.value} onCheckedChange={field.onChange} />
+                  <Switch
+                    checked={field.value}
+                    onCheckedChange={field.onChange}
+                  />
                 </FormControl>
                 <FormLabel>Active</FormLabel>
               </div>
@@ -109,5 +122,5 @@ export function EventForm() {
         </div>
       </form>
     </Form>
-  )
+  );
 }
