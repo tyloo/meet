@@ -1,6 +1,8 @@
+"use client";
+
 import type { z } from "zod";
 import { eventFormSchema } from "@/schema/events";
-import { createEvent } from "@/server/actions/events";
+import { createEvent, updateEvent } from "@/server/actions/events";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
@@ -19,10 +21,20 @@ import { Input } from "../ui/input";
 import { Switch } from "../ui/switch";
 import { Textarea } from "../ui/textarea";
 
-export function EventForm() {
+export function EventForm({
+  event,
+}: {
+  event?: {
+    id: string;
+    name: string;
+    description?: string;
+    durationInMinutes: number;
+    isActive: boolean;
+  };
+}) {
   const form = useForm<z.infer<typeof eventFormSchema>>({
     resolver: zodResolver(eventFormSchema),
-    defaultValues: {
+    defaultValues: event ?? {
       name: "",
       description: undefined,
       isActive: true,
@@ -31,11 +43,14 @@ export function EventForm() {
   });
 
   async function onSubmit(values: z.infer<typeof eventFormSchema>) {
-    const data = await createEvent(values);
+    const action =
+      event == null ? createEvent : updateEvent.bind(null, event.id);
+
+    const data = await action(values);
 
     if (data?.error) {
       toast.error(
-        "There was an error saving the event. Please try again later.",
+        "There was an error saving the event. Please try again later."
       );
     } else {
       toast.success("Event has been created.");
