@@ -12,6 +12,6 @@ export const eventFormSchema = z.object({
     .positive("Duration must be greater than 0.")
     .max(
       MAX_DURATION_IN_MINUTES,
-      `Duration must be less than ${MAX_DURATION_IN_MINUTES} minutes.`,
+      `Duration must be less than ${MAX_DURATION_IN_MINUTES} minutes.`
     ),
 });

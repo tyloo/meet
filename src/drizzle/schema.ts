@@ -32,7 +32,7 @@ export const EventTable = pgTable(
   },
   (table) => ({
     clerkUserIdIndex: index("clerk_user_id_index").on(table.clerkUserId),
-  }),
+  })
 );
 
 export const ScheduleTable = pgTable("schedule", {
@@ -43,6 +43,10 @@ export const ScheduleTable = pgTable("schedule", {
   updatedAt,
 });
 
+export const scheduleRelations = relations(ScheduleTable, ({ many }) => ({
+  availabilities: many(ScheduleAvailabilityTable),
+}));
+
 export const scheduleDayOfWeekEnum = pgEnum("day", DAYS_OF_WEEK_IN_ORDER);
 
 export const ScheduleAvailabilityTable = pgTable(
@@ -52,25 +56,21 @@ export const ScheduleAvailabilityTable = pgTable(
     scheduleId: uuid("schedule_id")
       .notNull()
       .references(() => ScheduleTable.id, { onDelete: "cascade" }),
+    dayOfWeek: scheduleDayOfWeekEnum("day_of_week").notNull(),
     startTime: text("start_time").notNull(),
     endTime: text("end_time").notNull(),
-    dayOfWeek: scheduleDayOfWeekEnum("day_of_week").notNull(),
   },
   (table) => ({
     scheduleIdIndex: index("schedule_id_index").on(table.scheduleId),
-  }),
+  })
 );
 
-export const scheduleRelations = relations(ScheduleTable, ({ many }) => ({
-  availabilities: many(ScheduleAvailabilityTable),
-}));
-
-export const scheduleAvailabilityRelations = relations(
+export const ScheduleAvailabilityRelations = relations(
   ScheduleAvailabilityTable,
   ({ one }) => ({
     schedule: one(ScheduleTable, {
-      fields: [ScheduleAvailabilityTable.id],
+      fields: [ScheduleAvailabilityTable.scheduleId],
       references: [ScheduleTable.id],
     }),
-  }),
+  })
 );

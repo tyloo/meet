@@ -10,7 +10,7 @@ export default function NavLink({
   ...props
 }: ComponentProps<typeof Link>) {
   const path = usePathname();
-  const isActive = path === props.href;
+  const isActive = path == props.href;
 
   return (
     <Link
@@ -20,7 +20,7 @@ export default function NavLink({
         isActive
           ? "text-foreground"
           : "text-muted-foreground hover:text-foreground",
-        className,
+        className
       )}
     />
   );

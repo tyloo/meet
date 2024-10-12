@@ -1,5 +1,5 @@
 {
-  "id": "1097e3a1-5b7f-440c-a1b9-8bcd653dc3c0",
+  "id": "c59b69cb-89df-4136-8004-ac427ed2428b",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -17,7 +17,7 @@
         },
         "clerk_user_id": {
           "name": "clerk_user_id",
-          "type": "uuid",
+          "type": "text",
           "primaryKey": false,
           "notNull": true
         },
@@ -99,6 +99,13 @@
           "primaryKey": false,
           "notNull": true
         },
+        "day_of_week": {
+          "name": "day_of_week",
+          "type": "day",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
+        },
         "start_time": {
           "name": "start_time",
           "type": "text",
@@ -108,13 +115,6 @@
         "end_time": {
           "name": "end_time",
           "type": "text",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "day_of_week": {
-          "name": "day_of_week",
-          "type": "day",
-          "typeSchema": "public",
           "primaryKey": false,
           "notNull": true
         }
@@ -141,8 +141,12 @@
           "name": "schedule_availability_schedule_id_schedule_id_fk",
           "tableFrom": "schedule_availability",
           "tableTo": "schedule",
-          "columnsFrom": ["schedule_id"],
-          "columnsTo": ["id"],
+          "columnsFrom": [
+            "schedule_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -195,7 +199,9 @@
         "schedule_clerk_user_id_unique": {
           "name": "schedule_clerk_user_id_unique",
           "nullsNotDistinct": false,
-          "columns": ["clerk_user_id"]
+          "columns": [
+            "clerk_user_id"
+          ]
         }
       }
     }

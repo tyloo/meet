@@ -6,7 +6,7 @@ END $$;
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "event" (
 	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
-	"clerk_user_id" uuid NOT NULL,
+	"clerk_user_id" text NOT NULL,
 	"name" text NOT NULL,
 	"description" text,
 	"duration_in_minutes" integer NOT NULL,
@@ -18,9 +18,9 @@ CREATE TABLE IF NOT EXISTS "event" (
 CREATE TABLE IF NOT EXISTS "schedule_availability" (
 	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
 	"schedule_id" uuid NOT NULL,
+	"day_of_week" "day" NOT NULL,
 	"start_time" text NOT NULL,
-	"end_time" text NOT NULL,
-	"day_of_week" "day" NOT NULL
+	"end_time" text NOT NULL
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "schedule" (
