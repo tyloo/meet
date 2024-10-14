@@ -10,7 +10,7 @@ import "use-server";
 import { and, eq } from "drizzle-orm";
 
 export async function createEvent(
-  unsafeData: z.infer<typeof eventFormSchema>,
+  unsafeData: z.infer<typeof eventFormSchema>
 ): Promise<{ error: boolean } | undefined> {
   const { userId } = auth();
   const { success, data } = eventFormSchema.safeParse(unsafeData);
@@ -26,7 +26,7 @@ export async function createEvent(
 
 export async function updateEvent(
   eventId: string,
-  unsafeData: z.infer<typeof eventFormSchema>,
+  unsafeData: z.infer<typeof eventFormSchema>
 ): Promise<{ error: boolean } | undefined> {
   const { userId } = auth();
   const { success, data } = eventFormSchema.safeParse(unsafeData);
@@ -48,7 +48,7 @@ export async function updateEvent(
 }
 
 export async function deleteEvent(
-  eventId: string,
+  eventId: string
 ): Promise<{ error: boolean } | undefined> {
   const { userId } = auth();
   if (userId == null) {

@@ -22,3 +22,11 @@ export function formatTimezoneOffset(timezone: string) {
     .formatToParts(new Date())
     .find((part) => part.type === "timeZoneName")?.value;
 }
+
+const dateFormatter = new Intl.DateTimeFormat(undefined, {
+  dateStyle: "medium",
+});
+
+export function formatDate(date: Date) {
+  return dateFormatter.format(date);
+}
