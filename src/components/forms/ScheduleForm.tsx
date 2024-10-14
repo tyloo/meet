@@ -60,12 +60,13 @@ export function ScheduleForm({
     fields: availabilityFields,
   } = useFieldArray({ name: "availabilities", control: form.control });
 
-  const groupedAvailabilityFields = Object.groupBy(
+  const groupBy = require("object.groupby");
+  const groupedAvailabilityFields = groupBy(
     availabilityFields.map((field, index) => ({
       ...field,
       index,
     })),
-    (availability) => availability.dayOfWeek
+    (availability: Availability) => availability.dayOfWeek
   );
 
   async function onSubmit(values: z.infer<typeof scheduleFormSchema>) {
@@ -132,7 +133,7 @@ export function ScheduleForm({
                   <Plus className="size-full" />
                 </Button>
                 {groupedAvailabilityFields[dayOfWeek]?.map(
-                  (field, labelIndex) => (
+                  (field: any, labelIndex: any) => (
                     <div className="flex flex-col gap-1" key={field.id}>
                       <div className="flex gap-2 items-center">
                         <FormField

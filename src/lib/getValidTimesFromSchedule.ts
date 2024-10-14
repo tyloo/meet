@@ -18,6 +18,12 @@ import {
 } from "date-fns";
 import { fromZonedTime } from "date-fns-tz";
 
+type Availability = {
+  startTime: string;
+  endTime: string;
+  dayOfWeek: (typeof DAYS_OF_WEEK_IN_ORDER)[number];
+};
+
 export async function getValidTimesFromSchedule(
   timesInOrder: Date[],
   event: { clerkUserId: string; durationInMinutes: number }
@@ -39,9 +45,10 @@ export async function getValidTimesFromSchedule(
     return [];
   }
 
-  const groupedAvailabilities = Object.groupBy(
+  const groupBy = require("object.groupby")
+  const groupedAvailabilities = groupBy(
     schedule.availabilities,
-    (a) => a.dayOfWeek
+    (a: Availability) => a.dayOfWeek
   );
 
   const eventTimes = await getCalendarEventTimes(event.clerkUserId, {
