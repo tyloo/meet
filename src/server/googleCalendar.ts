@@ -3,7 +3,7 @@
 import "use-server";
 import { clerkClient } from "@clerk/nextjs/server";
 import { google } from "googleapis";
-import { endOfDay, startOfDay } from "date-fns";
+import { addMinutes, endOfDay, startOfDay } from "date-fns";
 
 export async function getCalendarEventTimes(
   clerkUserId: string,
@@ -40,6 +40,61 @@ export async function getCalendarEventTimes(
       })
       .filter((date) => date != null) || []
   );
+}
+
+export async function createCalendarEvent({
+  clerkUserId,
+  startTime,
+  durationInMinutes,
+  eventName,
+  guestName,
+  guestEmail,
+  guestNotes,
+}: {
+  clerkUserId: string;
+  startTime: Date;
+  durationInMinutes: number;
+  eventName: string;
+  guestName: string;
+  guestEmail: string;
+  guestNotes?: string | null;
+}) {
+  const oAuthClient = await getOAuthClient(clerkUserId);
+
+  const calendarUser = await clerkClient().users.getUser(clerkUserId);
+
+  if (calendarUser.primaryEmailAddress == null) {
+    throw new Error("User has no primary email address.");
+  }
+
+  const calendarEvent = await google.calendar("v3").events.insert({
+    calendarId: "primary",
+    auth: oAuthClient,
+    sendUpdates: "all",
+    requestBody: {
+      attendees: [
+        {
+          email: guestEmail,
+          displayName: guestName,
+        },
+        {
+          email: calendarUser.primaryEmailAddress.emailAddress,
+          displayName: calendarUser.fullName,
+          responseStatus: "accepted"
+        }
+      ],
+      summary: `${guestName} x ${calendarUser.fullName}: ${eventName}`,
+      description: guestNotes ? `Additional Details: ${guestNotes}` : undefined,
+      start: {
+        dateTime: startTime.toISOString(),
+      },
+      end: {
+        dateTime: addMinutes(startTime, durationInMinutes).toISOString(),
+      },
+    },
+  });
+
+  return calendarEvent.data
 }
 
 async function getOAuthClient(clerkUserId: string) {

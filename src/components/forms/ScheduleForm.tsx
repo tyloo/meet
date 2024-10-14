@@ -125,7 +125,7 @@ export function ScheduleForm({
                     addAvailability({
                       dayOfWeek,
                       startTime: "9:00",
-                      endTime: "17:00",
+                      endTime: "18:00",
                     });
                   }}
                 >

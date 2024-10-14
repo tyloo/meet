@@ -20,6 +20,8 @@ import {
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
+export const revalidate = 0;
+
 export default async function BookEventPage({
   params: { clerkUserId, eventId },
 }: {
@@ -46,7 +48,7 @@ export default async function BookEventPage({
     event
   );
 
-  if (validTimes.length !== 0) {
+  if (validTimes.length === 0) {
     return <NoTimeSlots event={event} calendarUser={calendarUser} />;
   }
 
